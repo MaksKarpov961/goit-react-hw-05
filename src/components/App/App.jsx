@@ -3,13 +3,13 @@ import "./App.css";
 import HomePage from "../../pages/HomePage/HomePage";
 import MoviesPage from "../../pages/MoviesPage/MoviesPage";
 import Navigation from "../Navigation/Navigation";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import getMovies from "../../getPopularMovies";
 import MovieDetailsPage from "../../pages/MovieDetailsPage/MovieDetailsPage";
 
 function App() {
   const location = useLocation();
-  const isFirstRender = useRef(true);
+
   const [topListMovie, setTopListMovie] = useState([]);
   const [query, setQuery] = useState("");
   const [searchMovie, setSearchMovie] = useState([]);
@@ -19,11 +19,6 @@ function App() {
   };
 
   useEffect(() => {
-    if (isFirstRender.current) {
-      isFirstRender.current = false;
-      return;
-    }
-
     const fetchMovies = async () => {
       if (location.pathname === "/") {
         try {
