@@ -1,4 +1,4 @@
-import { Link, useParams } from "react-router-dom";
+import { Link, Outlet, useParams } from "react-router-dom";
 import { useState, useEffect, useCallback } from "react";
 import getMovies from "../../getPopularMovies";
 
@@ -50,7 +50,11 @@ const MovieDetailsPage = () => {
           <p>{release_date}</p>
         </div>
         <div>
-          <p>Additional info</p>
+          <p>Additional info:</p>
+          <Link to="cast">Cast</Link>
+          <Link to="reviews">Reviews</Link>
+
+          <Outlet />
         </div>
       </div>
     </div>

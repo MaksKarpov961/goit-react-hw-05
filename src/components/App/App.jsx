@@ -6,6 +6,8 @@ import Navigation from "../Navigation/Navigation";
 import { useEffect, useState } from "react";
 import getMovies from "../../getPopularMovies";
 import MovieDetailsPage from "../../pages/MovieDetailsPage/MovieDetailsPage";
+import MovieCast from "../MovieCast/MovieCast";
+import MovieReviews from "../MovieReviews/MovieReviews";
 
 function App() {
   const location = useLocation();
@@ -59,12 +61,11 @@ function App() {
           path="/movies"
           element={<MoviesPage onSubmit={onSubmit} listMovie={searchMovie} />}
         />
-        <Route
-          path="/movies/:movieId"
-          element={
-            <MovieDetailsPage listMovie={{ searchMovie, topListMovie }} />
-          }
-        />
+
+        <Route path="/movies/:movieId/*" element={<MovieDetailsPage />}>
+          <Route path="cast" element={<MovieCast />} />
+          <Route path="reviews" element={<MovieReviews />} />
+        </Route>
       </Routes>
     </>
   );
