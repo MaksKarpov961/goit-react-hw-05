@@ -38,11 +38,10 @@ const MovieDetailsPage = () => {
     movie;
 
   const handleGoBack = () => {
-    // Перевіряємо, чи є в state відправлений параметр from (URL, з якого прийшов користувач)
     if (location.state?.from) {
-      navigate(location.state.from); // Повертаємо на попередню сторінку
+      navigate(location.state.from);
     } else {
-      navigate("/"); // Якщо немає, переходимо на головну
+      navigate("/movies");
     }
   };
 

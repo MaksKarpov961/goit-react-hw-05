@@ -1,7 +1,7 @@
 import { Link, useLocation } from "react-router-dom";
 
 const MovieList = ({ listMovie }) => {
-  const location = useLocation(); // Отримуємо поточне місцезнаходження
+  const location = useLocation();
 
   if (!listMovie || listMovie.length === 0) {
     return;
