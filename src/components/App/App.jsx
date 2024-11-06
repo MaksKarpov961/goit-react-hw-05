@@ -1,4 +1,4 @@
-import { Route, Routes, useLocation } from "react-router-dom";
+import { Route, Routes, useLocation, useNavigate } from "react-router-dom";
 import "./App.css";
 import HomePage from "../../pages/HomePage/HomePage";
 import MoviesPage from "../../pages/MoviesPage/MoviesPage";
@@ -11,6 +11,7 @@ import MovieReviews from "../MovieReviews/MovieReviews";
 
 function App() {
   const location = useLocation();
+  const navigate = useNavigate();
 
   const [topListMovie, setTopListMovie] = useState([]);
   const [query, setQuery] = useState("");
@@ -18,6 +19,8 @@ function App() {
 
   const onSubmit = (newQuery) => {
     setQuery(newQuery);
+
+    navigate(`/movies?query=${newQuery}`);
   };
 
   useEffect(() => {
@@ -48,6 +51,14 @@ function App() {
     fetchMoviesSearch();
   }, [query]);
 
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    const queryFromUrl = searchParams.get("query");
+    if (queryFromUrl) {
+      setQuery(queryFromUrl);
+    }
+  }, [location.search]);
+
   return (
     <>
       <Navigation />
@@ -62,7 +73,7 @@ function App() {
           element={<MoviesPage onSubmit={onSubmit} listMovie={searchMovie} />}
         />
 
-        <Route path="/movies/:movieId/*" element={<MovieDetailsPage />}>
+        <Route path="/movies/:movieId/" element={<MovieDetailsPage />}>
           <Route path="cast" element={<MovieCast />} />
           <Route path="reviews" element={<MovieReviews />} />
         </Route>

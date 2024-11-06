@@ -10,6 +10,7 @@ const MoviesPage = ({ onSubmit, listMovie }) => {
     onSubmit(query);
     e.target.reset();
   };
+
   return (
     <div>
       <form onSubmit={handleSubmit}>

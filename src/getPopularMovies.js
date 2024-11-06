@@ -13,27 +13,59 @@ const getMovies = async (type = "trending", query = "", id = null) => {
   let url = "";
   let params = {};
 
-  if (type === "search") {
-    url = "https://api.themoviedb.org/3/search/movie";
-    params = {
-      query: query,
-      include_adult: "false",
-      language: "en-US",
-      page: "1",
-    };
-  } else if (type === "trending") {
-    url = "https://api.themoviedb.org/3/trending/movie/day";
-    params = {
-      language: "en-US",
-    };
-  } else if (type === "moreInfo" && id) {
-    url = `https://api.themoviedb.org/3/movie/${id}`;
-    params = {
-      language: "en-US",
-    };
-  } else {
-    console.error("Invalid request type or missing ID for moreInfo");
-    return null;
+  switch (type) {
+    case "search":
+      url = "https://api.themoviedb.org/3/search/movie";
+      params = {
+        query: query,
+        include_adult: "false",
+        language: "en-US",
+        page: "1",
+      };
+      break;
+
+    case "trending":
+      url = "https://api.themoviedb.org/3/trending/movie/day";
+      params = {
+        language: "en-US",
+      };
+      break;
+
+    case "moreInfo":
+      if (!id) {
+        console.error("ID is required for moreInfo request");
+        return null;
+      }
+      url = `https://api.themoviedb.org/3/movie/${id}`;
+      params = {
+        language: "en-US",
+      };
+      break;
+
+    case "cast":
+      if (!id) {
+        console.error("ID is required for cast request");
+        return null;
+      }
+      url = `https://api.themoviedb.org/3/movie/${id}/credits`;
+      params = {
+        language: "en-US",
+      };
+      break;
+    case "reviews":
+      if (!id) {
+        console.error("ID is required for reviews request");
+        return null;
+      }
+      url = `https://api.themoviedb.org/3/movie/${id}/reviews`;
+      params = {
+        language: "en-US",
+      };
+      break;
+
+    default:
+      console.error("Invalid request type");
+      return null;
   }
 
   const requestOptions = {
@@ -43,8 +75,12 @@ const getMovies = async (type = "trending", query = "", id = null) => {
   };
 
   try {
-    const response = await axios.request(requestOptions);
-    return type === "moreInfo" ? response.data : response.data.results;
+    const response = await axios(requestOptions);
+    if (type === "moreInfo") {
+      return response.data;
+    }
+
+    return response.data.results || response.data.cast || response.data;
   } catch (error) {
     console.error("Error fetching data:", error);
     return null;

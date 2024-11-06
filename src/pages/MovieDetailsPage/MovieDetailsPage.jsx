@@ -1,10 +1,18 @@
-import { Link, Outlet, useParams } from "react-router-dom";
+import {
+  Link,
+  Outlet,
+  useParams,
+  useNavigate,
+  useLocation,
+} from "react-router-dom";
 import { useState, useEffect, useCallback } from "react";
 import getMovies from "../../getPopularMovies";
 
 const MovieDetailsPage = () => {
   const { movieId } = useParams();
   const [movie, setMovie] = useState(null);
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const fetchMoreInfoMovies = useCallback(async () => {
     if (!movieId) return;
@@ -29,14 +37,23 @@ const MovieDetailsPage = () => {
   const { poster_path, title, overview, release_date, vote_average, genres } =
     movie;
 
+  const handleGoBack = () => {
+    // Перевіряємо, чи є в state відправлений параметр from (URL, з якого прийшов користувач)
+    if (location.state?.from) {
+      navigate(location.state.from); // Повертаємо на попередню сторінку
+    } else {
+      navigate("/"); // Якщо немає, переходимо на головну
+    }
+  };
+
   return (
     <div>
-      <Link to="/movies">
-        <button type="button">Go back</button>
-      </Link>
+      <button type="button" onClick={handleGoBack}>
+        Go back
+      </button>
       <div>
         <img
-          src={`https://image.tmdb.org/t/p/w300/${poster_path}`}
+          src={`https://image.tmdb.org/t/p/w400/${poster_path}`}
           alt={title}
         />
         <div>
@@ -51,8 +68,18 @@ const MovieDetailsPage = () => {
         </div>
         <div>
           <p>Additional info:</p>
-          <Link to="cast">Cast</Link>
-          <Link to="reviews">Reviews</Link>
+          <ul>
+            <li>
+              <Link to="cast" state={{ from: location.pathname }}>
+                Cast
+              </Link>
+            </li>
+            <li>
+              <Link to="reviews" state={{ from: location.pathname }}>
+                Reviews
+              </Link>
+            </li>
+          </ul>
 
           <Outlet />
         </div>
