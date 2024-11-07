@@ -5,14 +5,13 @@ import {
   useNavigate,
   useSearchParams,
 } from "react-router-dom";
+import { lazy, Suspense, useEffect, useState } from "react";
 import "./App.css";
 import HomePage from "../../pages/HomePage/HomePage";
-import MoviesPage from "../../pages/MoviesPage/MoviesPage";
-
 import Navigation from "../Navigation/Navigation";
-import { lazy, Suspense, useEffect, useState } from "react";
 import getMovies from "../../getPopularMovies";
 
+const MoviesPage = lazy(() => import("../../pages/MoviesPage/MoviesPage"));
 const MovieCast = lazy(() => import("../MovieCast/MovieCast"));
 const MovieReviews = lazy(() => import("../MovieReviews/MovieReviews"));
 const MovieDetailsPage = lazy(() =>
