@@ -5,14 +5,17 @@ import {
   useNavigate,
   useLocation,
 } from "react-router-dom";
-import { useState, useEffect, useCallback } from "react";
-import getMovies from "../../getPopularMovies";
+import { useState, useEffect, useCallback, useRef } from "react";
+import getMovies from "../../getMovies";
 import s from "./MovieDetailsPage.module.css";
-const MovieDetailsPage = ({ query }) => {
+
+const MovieDetailsPage = () => {
   const { movieId } = useParams();
   const [movie, setMovie] = useState(null);
   const navigate = useNavigate();
   const location = useLocation();
+  const initialLocationState = useRef(location.state);
+  const query = initialLocationState.current?.query;
 
   const fetchMoreInfoMovies = useCallback(async () => {
     if (!movieId) return;
@@ -38,14 +41,16 @@ const MovieDetailsPage = ({ query }) => {
     movie;
 
   const handleGoBack = () => {
-    if (location.state?.from === "/movies") {
-      navigate(`${location.state.from}?query=${query}`);
+    const from = initialLocationState.current?.from;
+
+    if (from === "/movies") {
+      navigate(`${from}?query=${query}`);
     } else if (
-      location.state?.from === `/movies/${movieId}` ||
-      location.state?.from === `/movies/${movieId}/cast` ||
-      location.state?.from === `/movies/${movieId}/reviews`
+      from === `/movies/${movieId}` ||
+      from === `/movies/${movieId}/cast` ||
+      from === `/movies/${movieId}/reviews`
     ) {
-      navigate(`/movies/?query=${query}`);
+      navigate(`/movies?query=${query}`);
     } else {
       navigate("/");
     }
@@ -67,7 +72,7 @@ const MovieDetailsPage = ({ query }) => {
               <h3>{title}</h3>
               <p>{overview}</p>
               <h4>Genres</h4>
-              <p>{genres.map((item) => `${item.name} `)} </p>
+              <p>{genres.map((item) => `${item.name} `)}</p>
               <h4>Rating:</h4>
               <p>{Math.round(vote_average * 10)}%</p>
               <h4>Release Date:</h4>
@@ -80,7 +85,7 @@ const MovieDetailsPage = ({ query }) => {
               <Link
                 className={s.link}
                 to="cast"
-                state={{ from: location.pathname }}
+                state={{ from: location.pathname, query }}
               >
                 Cast
               </Link>
@@ -89,7 +94,7 @@ const MovieDetailsPage = ({ query }) => {
               <Link
                 className={s.link}
                 to="reviews"
-                state={{ from: location.pathname }}
+                state={{ from: location.pathname, query }}
               >
                 Reviews
               </Link>

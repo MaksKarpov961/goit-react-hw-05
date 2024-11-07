@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import getMovies from "../../getPopularMovies";
+import getMovies from "../../getMovies";
 import s from "./MovieCast.module.css";
 
 const MovieCast = () => {
