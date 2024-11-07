@@ -7,7 +7,7 @@ import {
 } from "react-router-dom";
 import { useState, useEffect, useCallback } from "react";
 import getMovies from "../../getPopularMovies";
-
+import s from "./MovieDetailsPage.module.css";
 const MovieDetailsPage = ({ query }) => {
   const { movieId } = useParams();
   const [movie, setMovie] = useState(null);
@@ -52,35 +52,45 @@ const MovieDetailsPage = ({ query }) => {
   };
 
   return (
-    <div>
-      <button type="button" onClick={handleGoBack}>
+    <div className={s.container}>
+      <button className={s.button} type="button" onClick={handleGoBack}>
         Go back
       </button>
       <div>
-        <img
-          src={`https://image.tmdb.org/t/p/w400/${poster_path}`}
-          alt={title}
-        />
         <div>
-          <h3>{title}</h3>
-          <p>{overview}</p>
-          <h4>Genres</h4>
-          <p>{genres.map((item) => `${item.name} `)} </p>
-          <h4>Rating:</h4>
-          <p>{Math.round(vote_average * 10)}%</p>
-          <h4>Release Date:</h4>
-          <p>{release_date}</p>
-        </div>
-        <div>
-          <p>Additional info:</p>
-          <ul>
+          <div className={s.title_info}>
+            <img
+              src={`https://image.tmdb.org/t/p/w400/${poster_path}`}
+              alt={title}
+            />
+            <div className={s.info}>
+              <h3>{title}</h3>
+              <p>{overview}</p>
+              <h4>Genres</h4>
+              <p>{genres.map((item) => `${item.name} `)} </p>
+              <h4>Rating:</h4>
+              <p>{Math.round(vote_average * 10)}%</p>
+              <h4>Release Date:</h4>
+              <p>{release_date}</p>
+            </div>
+          </div>
+          <p className={s.more_info}>Additional info:</p>
+          <ul className={s.list}>
             <li>
-              <Link to="cast" state={{ from: location.pathname }}>
+              <Link
+                className={s.link}
+                to="cast"
+                state={{ from: location.pathname }}
+              >
                 Cast
               </Link>
             </li>
             <li>
-              <Link to="reviews" state={{ from: location.pathname }}>
+              <Link
+                className={s.link}
+                to="reviews"
+                state={{ from: location.pathname }}
+              >
                 Reviews
               </Link>
             </li>

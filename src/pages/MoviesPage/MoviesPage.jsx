@@ -1,5 +1,5 @@
 import MovieList from "../../components/MovieList/MovieList";
-
+import s from "./MoviesPage.module.css";
 const MoviesPage = ({ onSubmit, listMovie }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -12,7 +12,7 @@ const MoviesPage = ({ onSubmit, listMovie }) => {
   };
 
   return (
-    <div>
+    <div className={s.container}>
       <form onSubmit={handleSubmit}>
         <input
           name="query"

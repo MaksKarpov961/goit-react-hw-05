@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import getMovies from "../../getPopularMovies";
+import s from "./MovieReviews.module.css";
 
 const MovieReviews = () => {
   const { movieId } = useParams();
@@ -31,7 +32,7 @@ const MovieReviews = () => {
       {reviews.length === 0 && <p>No reviews available</p>}
 
       {reviews.length > 0 && (
-        <ul>
+        <ul className={s.list}>
           {reviews.map(({ author, content, id, created_at }) => {
             const date = new Date(created_at);
             const year = date.getFullYear();
@@ -40,7 +41,7 @@ const MovieReviews = () => {
 
             const formattedDate = `${year}-${month}-${day}`;
             return (
-              <li key={id}>
+              <li key={id} className={s.item}>
                 <h4>{author}</h4>
                 <p>{content}</p>
                 <p>{formattedDate}</p>

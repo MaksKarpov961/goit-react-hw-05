@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import getMovies from "../../getPopularMovies";
+import s from "./MovieCast.module.css";
 
 const MovieCast = () => {
   const { movieId } = useParams();
@@ -28,15 +29,23 @@ const MovieCast = () => {
   const castSlice = cast.slice(0, 15);
 
   return (
-    <ul>
-      {castSlice.map(({ id, name, profile_path, character }) => (
-        <li key={id}>
-          <img src={`https://image.tmdb.org/t/p/w200/${profile_path}`} alt="" />
-          <h4>{name}</h4>
-          <p>{character}</p>
-        </li>
-      ))}
-    </ul>
+    <>
+      {cast.length === 0 && <p>No cast available</p>}
+      {cast.length > 0 && (
+        <ul className={s.list}>
+          {castSlice.map(({ id, name, profile_path, character }) => (
+            <li key={id}>
+              <img
+                src={`https://image.tmdb.org/t/p/w200/${profile_path}`}
+                alt="No Photo"
+              />
+              <h4>{name}</h4>
+              <p>{character}</p>
+            </li>
+          ))}
+        </ul>
+      )}
+    </>
   );
 };
 

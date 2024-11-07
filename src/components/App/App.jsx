@@ -6,7 +6,6 @@ import {
   useSearchParams,
 } from "react-router-dom";
 import { lazy, Suspense, useEffect, useState } from "react";
-import "./App.css";
 import HomePage from "../../pages/HomePage/HomePage";
 import Navigation from "../Navigation/Navigation";
 import getMovies from "../../getPopularMovies";
