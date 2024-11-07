@@ -8,7 +8,7 @@ import {
 import { useState, useEffect, useCallback } from "react";
 import getMovies from "../../getPopularMovies";
 
-const MovieDetailsPage = () => {
+const MovieDetailsPage = ({ query }) => {
   const { movieId } = useParams();
   const [movie, setMovie] = useState(null);
   const navigate = useNavigate();
@@ -38,10 +38,16 @@ const MovieDetailsPage = () => {
     movie;
 
   const handleGoBack = () => {
-    if (location.state?.from) {
-      navigate(location.state.from);
+    if (location.state?.from === "/movies") {
+      navigate(`${location.state.from}?query=${query}`);
+    } else if (
+      location.state?.from === `/movies/${movieId}` ||
+      location.state?.from === `/movies/${movieId}/cast` ||
+      location.state?.from === `/movies/${movieId}/reviews`
+    ) {
+      navigate(`/movies/?query=${query}`);
     } else {
-      navigate("/movies");
+      navigate("/");
     }
   };
 
