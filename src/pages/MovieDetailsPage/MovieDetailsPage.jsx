@@ -45,12 +45,6 @@ const MovieDetailsPage = () => {
 
     if (from === "/movies") {
       navigate(`${from}?query=${query}`);
-    } else if (
-      from === `/movies/${movieId}` ||
-      from === `/movies/${movieId}/cast` ||
-      from === `/movies/${movieId}/reviews`
-    ) {
-      navigate(`/movies?query=${query}`);
     } else {
       navigate("/");
     }
@@ -85,7 +79,7 @@ const MovieDetailsPage = () => {
               <Link
                 className={s.link}
                 to="cast"
-                state={{ from: location.pathname, query }}
+                state={{ from: location.pathname }}
               >
                 Cast
               </Link>
@@ -94,7 +88,7 @@ const MovieDetailsPage = () => {
               <Link
                 className={s.link}
                 to="reviews"
-                state={{ from: location.pathname, query }}
+                state={{ from: location.pathname }}
               >
                 Reviews
               </Link>
